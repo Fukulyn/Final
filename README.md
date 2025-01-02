@@ -1,6 +1,6 @@
 # Palworld Deck Manager 帕魯管理系統
 
-## User Guide
+## User Guide 使用說明
 
 下載程式封裝碼
 
