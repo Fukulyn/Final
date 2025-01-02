@@ -3,7 +3,7 @@ import { Request, response, Response } from "express";
 import { UserService } from "../Service/UserService";
 import { resp } from "../utils/resp";
 import { DBResp } from "../interfaces/DBResp";
-import { Student } from "../interfaces/Student";
+import { pals } from "../interfaces/pals";
 require('dotenv').config()
 
 export class UserController extends Contorller {
@@ -15,7 +15,7 @@ export class UserController extends Contorller {
     }
 
     public async findAll(req: Request, res: Response) {
-        const response: resp<Array<DBResp<Student>> | undefined> = {
+        const response: resp<Array<DBResp<pals>> | undefined> = {
             code: 200,
             message: "",
             body: undefined,
