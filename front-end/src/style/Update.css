@@ -1,0 +1,87 @@
+/* Update.css */
+.update-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.update-button {
+    background-color: #4CAF50;
+    /* 綠色背景 */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.update-button:hover {
+    background-color: #45a049;
+    /* 懸停時變深綠色 */
+    transform: scale(1.05);
+    /* 懸停時放大效果 */
+}
+
+.update-button:focus {
+    outline: 2px solid #80e27e;
+    /* 聚焦時的綠色輪廓 */
+}
+
+.update-message {
+    font-size: 14px;
+    color: #4CAF50;
+    /* 綠色文字 */
+    text-align: center;
+    margin-top: 10px;
+}
+
+.update-form {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f1f8e9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.update-form .txt_field {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.update-form input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.update-form input:focus {
+    border-color: #4CAF50;
+    /* 聚焦時綠色邊框 */
+}
+
+.update-form label {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    padding: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.update-form input:focus+label,
+.update-form input:not(:placeholder-shown)+label {
+    top: -20px;
+    font-size: 12px;
+    color: #4CAF50;
+}
