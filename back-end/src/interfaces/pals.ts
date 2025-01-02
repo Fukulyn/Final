@@ -1,4 +1,3 @@
-import { UrlWithStringQuery } from "url";
 
 export interface pals{
     _id?: string,
@@ -7,5 +6,4 @@ export interface pals{
     image: string,
     attribute: string,
     workCompatibility: string,
-    url: UrlWithStringQuery
 }
