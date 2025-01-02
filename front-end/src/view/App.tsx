@@ -21,9 +21,9 @@ function App() {
     }
   }, []);
 
-  const studentList = pals.map((pal) => {
+  const palsList = pals.map((pal) => {
     return (
-      <div className='student-card' key={pal._id}>
+      <div className='pal-card' key={pal._id}>
         <h3>{pal.name}</h3>
         <p>名稱: {pal.name}</p>
         <p>編號: {pal.id}</p>
@@ -38,7 +38,7 @@ function App() {
     <>
       <Navigation />
       <div className='container'>
-        <div className='student-list'>{studentList}</div>
+        <div className='pal-list'>{palsList}</div>
       </div>
     </>
   );

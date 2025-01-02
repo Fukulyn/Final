@@ -8,7 +8,7 @@
 }
 
 /* Student list wrapper */
-.student-list {
+.pal-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
@@ -18,7 +18,7 @@
 }
 
 /* Card for each student */
-.student-card {
+.pal-card {
     background: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 16px;
@@ -30,13 +30,13 @@
     overflow: hidden;
 }
 
-.student-card:hover {
+.pal-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Gradient border effect on hover */
-.student-card::before {
+.pal-card::before {
     content: "";
     position: absolute;
     top: -5px;
@@ -50,19 +50,19 @@
     transition: opacity 0.4s ease;
 }
 
-.student-card:hover::before {
+.pal-card:hover::before {
     opacity: 1;
 }
 
 /* Student card header (name) */
-.student-card h3 {
+.pal-card h3 {
     color: #212529;
     font-size: 1.5rem;
     margin-bottom: 12px;
 }
 
 /* Student card body text (details) */
-.student-card p {
+.pal-card p {
     color: #495057;
     margin-bottom: 10px;
     font-size: 0.95rem;

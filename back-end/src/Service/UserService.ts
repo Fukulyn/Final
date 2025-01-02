@@ -7,11 +7,7 @@ import { MongoDB } from "../utils/MongoDB";
 import { DBResp } from "../interfaces/DBResp";
 import { resp } from "../utils/resp";
 
-type seatInfo = {
-    schoolName:string,
-    department:string,
-    seatNumber:string
-}
+
 
 export class UserService extends Service {
     /**尋找所有學生資料

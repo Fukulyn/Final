@@ -8,20 +8,18 @@ export default function UpdateName() {
     const [selectedOption, setSelectedOption] = useState<string>("id");
     const [inputValue, setInputValue] = useState<string>("");
     const [userData, setUserData] = useState<any>({
-        userName: "",
+        id: "",
         name: "",
-        department: "",
-        grade: "",
-        class: "",
-        email: "",
-        absences: "",  // 新增缺席次數欄位
+        attribute: "",
+        workCompatibility: "",
+        image: "",
     });
     const [showUserData, setShowUserData] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
     const [isError, setIsError] = useState<boolean>(false);
 
     function handleInputPlaceholder(): string {
-        return "請輸入學生" + (selectedOption === "id" ? "ID" : "姓名");
+        return "請輸入帕魯" + (selectedOption === "id" ? "ID" : "名稱");
     }
 
     async function handleQueryUser() {
@@ -75,20 +73,16 @@ export default function UpdateName() {
     }
 
     const userFields = [
-        { label: "帳號", key: "userName" },
-        { label: "姓名", key: "name" },
-        { label: "科系", key: "department" },
-        { label: "年級", key: "grade" },
-        { label: "班級", key: "class" },
-        { label: "Email", key: "email" },
-        { label: "缺席次數", key: "absences" }, // 新增缺席次數欄位
+        { label: "名稱", key: "name" },
+        { label: "屬性", key: "attribute" },
+        { label: "工作屬性", key: "workCompatibility" },
     ];
 
     return (
         <>
             <Navigation />
             <div className="update_container">
-                <h1>更新學生資料</h1>
+                <h1>更新帕魯資料</h1>
                 <form onSubmit={(e) => { e.preventDefault(); handleQueryUser(); }}>
                     <div>
                         <label>
@@ -97,7 +91,7 @@ export default function UpdateName() {
                         </label>
                         <label>
                             <input type="radio" name="deleteOption" checked={selectedOption === "name"} onChange={() => setSelectedOption("name")} />
-                            姓名
+                            名稱
                         </label>
                     </div>
                     <input
@@ -108,14 +102,14 @@ export default function UpdateName() {
                         required
                         title={handleInputPlaceholder()}
                     />
-                    <button type="submit">查詢學生</button>
+                    <button type="submit">查詢帕魯</button>
                 </form>
                 {message && <p className={`message ${isError ? "error" : ""}`}>{message}</p>}
             </div>
 
             {showUserData && (
                 <div className={`user_data_container ${showUserData ? "show" : ""}`}>
-                    <h2>學生資料</h2>
+                    <h2>帕魯資料</h2>
                     {userFields.map(({ label, key }) => (
                         <div key={key}>
                             <label htmlFor={key}>{label}:</label>
@@ -123,7 +117,7 @@ export default function UpdateName() {
                                 type="text"
                                 id={key}
                                 value={userData[key] || ""}
-                                disabled={label === "帳號"}
+                                disabled={label === "名稱"}
                                 onChange={(e) => setUserData({ ...userData, [key]: e.target.value })}
                                 title={`請輸入${label}`}
                             />

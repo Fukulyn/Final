@@ -35,11 +35,11 @@ export default function RootTemplate() {
             <div className="root_template">
                 <h1>幻獸帕魯資料圖鑑</h1>
                 {message && <p className={`message ${isError ? 'error' : ''}`}>{message}</p>}
-                <div className="student-grid">
+                <div className="pal-grid">
                     {pals.length > 0 ? (
                         pals.map((pal) => (
-                            <div className="student-card" key={pal._id}> 
-                                <div className="student-info">
+                            <div className="pal-card" key={pal._id}> 
+                                <div className="pals-info">
                                     <h2>{pal.name}</h2>
                                     <p>帕魯ID: {pal._id}</p>
                                     <p>編號: {pal.id}</p>

@@ -6,12 +6,10 @@ import Navigation from "./Navigation";
 
 export default function AddUser() {
     const [formData, setFormData] = useState({
-        userName: "",
         name: "",
-        department: "",
-        grade: "",
-        class: "",
-        email: "",
+        attribute: "",
+        workCompatibility: "",
+        image: "",
     });
 
     const [message, setMessage] = useState<string>("");
@@ -32,12 +30,10 @@ export default function AddUser() {
                 setMessage("新增成功");
                 setIsError(false);
                 setFormData({
-                    userName: "",
                     name: "",
-                    department: "",
-                    grade: "",
-                    class: "",
-                    email: "",
+                    attribute: "",
+                    workCompatibility: "",
+                    image: "",
                 });
             } else {
                 setMessage(`新增失敗: ${response?.message || "請稍後再試"}`);
@@ -50,19 +46,18 @@ export default function AddUser() {
     };
 
     const formFields = [
-        { name: "userName", label: "使用者名稱", type: "text" },
         { name: "name", label: "姓名", type: "text" },
-        { name: "department", label: "系級", type: "text" },
-        { name: "grade", label: "年級", type: "text" },
-        { name: "class", label: "班級", type: "text" },
-        { name: "email", label: "電子郵件", type: "email" },
+        { name: "attribute", label: "屬性", type: "text" },
+        { name: "workCompatibility", label: "工作兼容性", type: "text" },
+        { name: "image", label: "圖片", type: "text" },
     ];
 
     return (
         <>
             <Navigation />
             <div className="add_container">
-                <h1>新增學生</h1>
+                <h1>新增帕魯
+                </h1>
                 <form onSubmit={handleSubmit}>
                     {formFields.map((field) => (
                         <div className="txt_field" key={field.name}>

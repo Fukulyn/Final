@@ -9,4 +9,4 @@ export const palsSchemas = new Schema<pals>({
     image:{ type: String, required: true },
 });
 
-export const palsModel = model<pals>('students', palsSchemas);
+export const palsModel = model<pals>('pals', palsSchemas);
