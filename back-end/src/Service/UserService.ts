@@ -78,12 +78,10 @@ public async insertOne(info: pals): Promise<resp<DBResp<pals> | undefined>> {
 }
 
 /**
- * 學生名字驗證器
- * @param Name 學生名字
- * tku ee 0787
- * ee 科系縮寫
- *  0787 四碼
+ * 帕魯名字驗證器
+ * @param userName 帕魯名字
  * 座號檢查，跟之前有重複就噴錯  只能寫沒重複的號碼
+ * 
  */
 public async userNameValidator(userName: string): Promise<
     '座號已存在' | 
@@ -109,47 +107,17 @@ public async existingName(userName: string): Promise<boolean> {
 }
 
 
-/**
- * 用戶名格式化
- * @param userName 用戶名
- * @returns seatInfo
- */
-public userNameFormator(userName: string) {
-    if (!userName || typeof userName !== "string" || userName.length < 7) {
-        throw new Error("無效的用戶名格式");
-    }
-    const info: seatInfo = {
-        schoolName: userName.slice(0, 3),
-        department: userName.slice(3, userName.length - 4),
-        seatNumber: userName.slice(-4)
-    };
-    return info;
-}
 
 /**
- * 檢查用戶名是否存在
- * @param SeatNumber 用戶座號
- * @returns boolean
- */
-public async existingSeatNumbers(SeatNumber: string): Promise<boolean> {
-    const students = await this.getAllStudents();
-    if (!students) return false; // 处理学生列表为空的情况
-    return students.some((student) => {
-        const info = this.userNameFormator(student.name,);
-        return info.seatNumber === SeatNumber;
-    });
-}
-
-/**
- * 获取所有学生
+ * 獲取所有帕魯
  * @returns Promise<Student[]>
  */
 public async getAllStudents(): Promise<pals[]> {
     try {
-        return await palsModel.find(); // 返回所有学生
+        return await palsModel.find(); // 返回所有帕魯
     } catch (error) {
-        console.error("Error fetching students:", error);
-        return []; // 处理无法获取学生数据的情况
+        console.error("Error fetching pals:", error);
+        return []; // 處理無法獲取帕魯數據的情况
     }
 }
 
@@ -221,9 +189,10 @@ public async getAllStudents(): Promise<pals[]> {
             body: undefined
         };
         try {
-            // 移除不想被看到的欄位，_id、sid、absences
+            // 移除不想被看到的欄位，_id、sid
             const updateFields = { ...updateData };
             delete updateFields._id;
+            
             
             
     
