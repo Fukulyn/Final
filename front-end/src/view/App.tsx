@@ -7,7 +7,7 @@ import { resp } from '../interface/resp';
 import Navigation from '../components/Navigation';
 
 function App() {
-  const [students, setStudents] = useState<Array<Pals>>([]);
+  const [pals, setPals] = useState<Array<Pals>>([]);
   const cache = useRef<boolean>(false);
 
   useEffect(() => {
@@ -15,21 +15,21 @@ function App() {
       cache.current = true;
       asyncGet(api.findAll).then((res: resp<Array<Pals>>) => {
         if (res.code == 200) {
-          setStudents(res.body);
+          setPals(res.body);
         }
       });
     }
   }, []);
 
-  const studentList = students.map((student: Pals) => {
+  const studentList = pals.map((pal) => {
     return (
-      <div className='student-card' key={student._id}>
-        <h3>{student.name}</h3>
-        <p>名稱: {student.name}</p>
-        <p>編號: {student.id}</p>
-        <p>屬性: {student.attribute}</p>
-        <p>工作屬性: {student.workCompatibility}</p>
-        <img src={student.image} alt={student.name} />
+      <div className='student-card' key={pal._id}>
+        <h3>{pal.name}</h3>
+        <p>名稱: {pal.name}</p>
+        <p>編號: {pal.id}</p>
+        <p>屬性: {pal.attribute}</p>
+        <p>工作屬性: {pal.workCompatibility}</p>
+        <img src={pal.image} alt={pal.name} />
       </div>
     );
   });

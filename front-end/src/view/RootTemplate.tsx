@@ -46,6 +46,7 @@ export default function RootTemplate() {
                                     <p>名稱: {pal.name}</p>
                                     <p>屬性: {pal.attribute}</p>
                                     <p>工作屬性: {pal.workCompatibility}</p>
+                                    <img src={pal.image} alt={pal.name} />
                                 </div>
                             </div>
                         ))
