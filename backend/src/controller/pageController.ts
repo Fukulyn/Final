@@ -1,4 +1,4 @@
-import { Contorller } from "../abstract/Contorller";
+import { Contorller } from "../abstract/Controller";
 import {Request, Response} from "express";
 import { logger } from "../middlewares/log";
 import { Service } from "../abstract/Service";

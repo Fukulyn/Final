@@ -2,14 +2,14 @@ import { model, Schema } from "mongoose";
 import { Student } from "../../interfaces/Student";
 
 export const studentsSchemas = new Schema<Student>({
-    userName:{ type: String, required: true },
-    sid:{ type: String, required: true },
-    name:{ type: String, required: true },
-    department:{ type: String, required: true },
-    grade:{ type: String, required: true },
-    class:{ type: String, required: true },
-    email:{ type: String, required: true },
-    absences:{ type: Number, required: false },
+    _id: {
+        $oid: { type: String, required: true } // 對應 MongoDB 的 ObjectID 格式
+    },
+    id: { type: String, required: true }, // 學生編號
+    name: { type: String, required: true }, // 學生名稱
+    attribute: { type: String, required: true }, // 屬性
+    workCompatibility: { type: String, required: true }, // 工作適配性（逗號分隔的字串）
+    image: { type: String, required: true } // 圖片的 URL
 });
 
 export const studentsModel = model<Student>('students', studentsSchemas);

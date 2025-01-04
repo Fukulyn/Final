@@ -1,12 +1,12 @@
-import { Contorller } from "../abstract/Contorller";
-import { Request, response, Response } from "express";
+import { Controller } from "../abstract/Controller";
+import { Request, Response } from "express";
 import { UserService } from "../Service/UserService";
 import { resp } from "../utils/resp";
 import { DBResp } from "../interfaces/DBResp";
 import { Student } from "../interfaces/Student";
-require('dotenv').config()
+import mongoose from "mongoose";
 
-export class UserController extends Contorller {
+export class UserController extends Controller {
     protected service: UserService;
 
     constructor() {
@@ -14,19 +14,21 @@ export class UserController extends Contorller {
         this.service = new UserService();
     }
 
+    /**
+     * 獲取所有學生資料
+     */
     public async findAll(req: Request, res: Response) {
         const response: resp<Array<DBResp<Student>> | undefined> = {
             code: 200,
             message: "",
             body: undefined,
         };
-    
+
         try {
-            // 使用 lean() 返回普通对象
-            const dbResp = await this.service.getAllStudents().lean; 
-    
-            if (dbResp) {
-                response.body = dbResp;
+            const students = await this.service.get();
+
+            if (students) {
+                response.body = students;
                 response.message = "Find success";
                 res.send(response);
             } else {
@@ -39,38 +41,107 @@ export class UserController extends Contorller {
             response.message = "Server error";
             res.status(500).send(response);
         }
-    }    public async insertOne(Request: Request, Response: Response) {
-        const resp = await this.service.insertOne(Request.body)
-        Response.status(resp.code).send(resp)
     }
 
-    public async deletedById(Request: Request, Response: Response){
-        const resp = await this.service.deletedById(Request.query.id as string);
-        Response.status(resp.code).send(resp);
+    /**
+     * 新增一名學生
+     */
+    public async insertOne(req: Request, res: Response) {
+        try {
+            const result = await this.service.insertOne(req.body);
+            res.status(result.code).send(result);
+        } catch (error) {
+            res.status(500).send({ code: 500, message: "Server error" });
+        }
     }
 
-    public async deletedByName(Request: Request, Response: Response){
-        const resp = await this.service.deletedByName(Request.query.name as string);
-        Response.status(resp.code).send(resp);
+    /**
+     * 根據 ID 刪除學生資料
+     */
+    public async deletedById(req: Request, res: Response) {
+        const id = req.params.id;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(400).send({ code: 400, message: "Invalid ID format" });
+            return;
+        }
+
+        const result = await this.service.deleteById(id);
+        res.status(result.code).send(result);
     }
 
-    public async updateByName(Request: Request, Response: Response){
-        const resp = await this.service.updateByName(Request.query.name as string, Request.body);
-        Response.status(resp.code).send(resp);
+    /**
+     * 根據名稱刪除學生資料
+     */
+    public async deletedByName(req: Request, res: Response) {
+        const name = req.query.name as string;
+
+        if (!name) {
+            res.status(400).send({ code: 400, message: "Name is required" });
+            return;
+        }
+
+        const result = await this.service.deleteByName(name);
+        res.status(result.code).send(result);
     }
 
-    public async updateById(Request: Request, Response: Response){
-        const resp = await this.service.updateById(Request.query.id as string, Request.body);
-        Response.status(resp.code).send(resp);
+    /**
+     * 根據名稱更新學生資料
+     */
+    public async updateByName(req: Request, res: Response) {
+        const name = req.query.name as string;
+
+        if (!name) {
+            res.status(400).send({ code: 400, message: "Name is required" });
+            return;
+        }
+
+        const result = await this.service.updateByName(name, req.body);
+        res.status(result.code).send(result);
     }
 
-    public async findByName(Request: Request, Response: Response){
-        const resp = await this.service.findByName(Request.query.name as string);
-        Response.status(resp.code).send(resp);
+    /**
+     * 根據 ID 更新學生資料
+     */
+    public async updateById(req: Request, res: Response) {
+        const id = req.params.id;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(400).send({ code: 400, message: "Invalid ID format" });
+            return;
+        }
+
+        const result = await this.service.updateById(id, req.body);
+        res.status(result.code).send(result);
     }
 
-    public async findById(Request: Request, Response: Response){
-        const resp = await this.service.findById(Request.query.id as string);
-        Response.status(resp.code).send(resp);
+    /**
+     * 根據名稱查找學生
+     */
+    public async findByName(req: Request, res: Response) {
+        const name = req.query.name as string;
+
+        if (!name) {
+            res.status(400).send({ code: 400, message: "Name is required" });
+            return;
+        }
+
+        const result = await this.service.findByName(name);
+        res.status(result.code).send(result);
+    }
+
+    /**
+     * 根據 ID 查找學生
+     */
+    public async findById(req: Request, res: Response) {
+        const id = req.params.id;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(400).send({ code: 400, message: "Invalid ID format" });
+            return;
+        }
+
+        const result = await this.service.findById(id);
+        res.status(result.code).send(result);
     }
 }
