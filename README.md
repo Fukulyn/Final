@@ -36,14 +36,19 @@ privateKey=key            # 私密金鑰
 
 ```
 
-#切換到專案目錄
+# 切換到專案目錄
+
 `cd Final`
+
 前端
+
 `cd frontend`
+
 後端
+
 `cd backend`
 
-#下載相關安裝模組與執行
+# 下載相關安裝模組與執行
 
 `npm install`
 `npm run dev`
