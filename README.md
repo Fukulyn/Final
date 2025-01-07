@@ -22,7 +22,7 @@
 在 `backend` 中
 將 `.env.example` 複製到 `.env `上
 
-`
+```
 DBUSER=test               # 資料庫使用者
 DBPASSWORD=password       # 資料庫密碼
 DBHOST=127.0.0.1          # 資料庫連線位置
@@ -33,7 +33,8 @@ LogPath=logs              # log生成位置
 assetsPath=/assets        # assets生成位置
 HomePagePath=/index.html  # 首頁位置
 privateKey=key            # 私密金鑰
-`
+
+```
 
 #切換到專案目錄
 `cd Final`
