@@ -11,16 +11,12 @@ export async function asyncGet(api: string): Promise<any> {
         if (!res.ok) {
             throw new Error(`API 請求失敗，狀態碼：${res.status}`);
         }
-        
-        try {
-            return await res.json();
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                throw new Error("無法解析 JSON 響應：" + error.message);
-            } else {
-                throw new Error("未知錯誤：無法解析 JSON 響應");
-            }
-        }
+
+        // Debug: 印出 API 回應資料
+        const data = await res.json();
+        console.log('API 回應資料:', data);
+
+        return data;
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.error("請求錯誤:", error.message);
@@ -51,21 +47,16 @@ export async function asyncPost(api: string, body: {} | FormData): Promise<any> 
             mode: "cors"
         });
 
+        // 檢查響應狀態是否為 200
         if (!res.ok) {
             throw new Error(`API 請求失敗，狀態碼：${res.status}`);
         }
 
-        try {
-            return await res.json();
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error("無法解析 JSON 響應:", error.message);
-                return { error: true, message: "無法解析 JSON 響應" };
-            } else {
-                console.error("未知錯誤:", error);
-                return { error: true, message: "未知錯誤" };
-            }
-        }
+        // Debug: 印出 API 回應資料
+        const data = await res.json();
+        console.log('API 回應資料:', data);
+
+        return data;
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.error("請求錯誤:", error.message);
@@ -94,21 +85,16 @@ export async function asyncPatch(api: string, body: {} | FormData): Promise<any>
             mode: "cors"
         });
 
+        // 檢查響應狀態是否為 200
         if (!res.ok) {
             throw new Error(`API 請求失敗，狀態碼：${res.status}`);
         }
 
-        try {
-            return await res.json();
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error("無法解析 JSON 響應:", error.message);
-                return { error: true, message: "無法解析 JSON 響應" };
-            } else {
-                console.error("未知錯誤:", error);
-                return { error: true, message: "未知錯誤" };
-            }
-        }
+        // Debug: 印出 API 回應資料
+        const data = await res.json();
+        console.log('API 回應資料:', data);
+
+        return data;
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.error("請求錯誤:", error.message);
@@ -135,21 +121,16 @@ export async function asyncDelete(api: string): Promise<any> {
             mode: "cors",
         });
 
+        // 檢查響應狀態是否為 200
         if (!res.ok) {
             throw new Error(`API 請求失敗，狀態碼：${res.status}`);
         }
 
-        try {
-            return await res.json();
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error("無法解析 JSON 響應:", error.message);
-                return { error: true, message: "無法解析 JSON 響應" };
-            } else {
-                console.error("未知錯誤:", error);
-                return { error: true, message: "未知錯誤" };
-            }
-        }
+        // Debug: 印出 API 回應資料
+        const data = await res.json();
+        console.log('API 回應資料:', data);
+
+        return data;
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.error("請求錯誤:", error.message);
@@ -179,21 +160,16 @@ export async function asyncPut(api: string, body: {} | FormData): Promise<any> {
             mode: "cors",
         });
 
+        // 檢查響應狀態是否為 200
         if (!res.ok) {
             throw new Error(`API 請求失敗，狀態碼：${res.status}`);
         }
 
-        try {
-            return await res.json();
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error("無法解析 JSON 響應:", error.message);
-                return { error: true, message: "無法解析 JSON 響應" };
-            } else {
-                console.error("未知錯誤:", error);
-                return { error: true, message: "未知錯誤" };
-            }
-        }
+        // Debug: 印出 API 回應資料
+        const data = await res.json();
+        console.log('API 回應資料:', data);
+
+        return data;
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.error("請求錯誤:", error.message);

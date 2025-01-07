@@ -49,7 +49,7 @@ export default function Delete() {
         <>
             <Navigation />
             <div className="delete_container">
-                <h1>刪除學生</h1>
+                <h1>刪除帕魯</h1>
                 <form onSubmit={handleDelete}>
                     <div>
                         <label>

@@ -33,22 +33,24 @@ export default function RootTemplate() {
         <>
             <Navigation />
             <div className="root_template">
-                <h1>學生資料圖鑑</h1>
+                {/* 顯示錯誤或提示訊息 */}
                 {message && <p className={`message ${isError ? 'error' : ''}`}>{message}</p>}
-                <div className="student-grid">
+                
+                {/* 九宮格樣式的學生卡片區域 */}
+                <div className="student-list">
                     {students.length > 0 ? (
                         students.map((student) => (
-                            <div className="student-card" key={student._id}> 
+                            <div className="student-card" key={student._id}>
                                 <div className="student-info">
-                                    <h2>{student.name}</h2>
-                                    <p>學生ID: {student._id}</p>
-                                    <p>帳號: {student.userName}</p>
-                                    <p>座號: {student.sid}</p>
-                                    <p>系級: {student.department}</p>
-                                    <p>年級: {student.grade}</p>
-                                    <p>班級: {student.class}</p>
-                                    <p>Email: {student.email}</p>
-                                    <p>缺席次數: {student.absences !== undefined ? student.absences : '無資料'}</p>
+                                    <img
+                                        src={student.image || "https://via.placeholder.com/150"}
+                                        alt={`${student.name} 的圖片`}
+                                        className="student-image"
+                                    />
+                                    <h3>{student.name}</h3>
+                                    <p>No. {student.id}</p>
+                                    <p>屬性: {student.attribute}</p>
+                                    <p>工作適配性: {student.workCompatibility}</p>
                                 </div>
                             </div>
                         ))

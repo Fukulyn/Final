@@ -62,7 +62,7 @@ export default function AddUser() {
         <>
             <Navigation />
             <div className="add_container">
-                <h1>新增學生</h1>
+                <h1>新增帕魯</h1>
                 <form onSubmit={handleSubmit}>
                     {formFields.map((field) => (
                         <div className="txt_field" key={field.name}>

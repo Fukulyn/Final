@@ -5,7 +5,7 @@ export abstract class Route{
 
     protected abstract url:string
 
-    protected abstract Contorller:Controller
+    protected abstract Controller:Controller
 
     protected router = Router()
 

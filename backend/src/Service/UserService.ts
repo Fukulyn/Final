@@ -6,6 +6,7 @@ import { resp } from "../utils/resp";
 import { Types } from "mongoose";
 
 export class UserService extends Service {
+
   /**
    * 獲取所有學生資料
    * @returns Promise<Array<DBResp<Student>> | undefined>
