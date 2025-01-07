@@ -51,6 +51,7 @@ privateKey=key            # 私密金鑰
 # 下載相關安裝模組與執行
 
 `npm install`
+
 `npm run dev`
 
 
