@@ -11,7 +11,7 @@ export default function Delete() {
     const [isError, setIsError] = useState<boolean>(false); // 控制消息是否為錯誤
 
     function handleInputPlaceholder(): string {
-        return "請輸入學生" + (selectedOption === "id" ? "ID" : "姓名");
+        return "請輸入帕魯" + (selectedOption === "id" ? "ID" : "名稱");
     }
 
     async function handleDelete(e: React.FormEvent) {
@@ -49,7 +49,7 @@ export default function Delete() {
         <>
             <Navigation />
             <div className="delete_container">
-                <h1>刪除帕魯</h1>
+                
                 <form onSubmit={handleDelete}>
                     <div>
                         <label>
@@ -59,7 +59,7 @@ export default function Delete() {
                                 checked={selectedOption === "id"}
                                 onChange={() => setSelectedOption("id")}
                             />
-                            ID
+                            編號
                         </label>
                         <label>
                             <input
@@ -68,7 +68,7 @@ export default function Delete() {
                                 checked={selectedOption === "name"}
                                 onChange={() => setSelectedOption("name")}
                             />
-                            姓名
+                            名稱
                         </label>
                     </div>
                     <input

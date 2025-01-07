@@ -8,38 +8,45 @@ export default function UpdateName() {
     const [selectedOption, setSelectedOption] = useState<string>("id");
     const [inputValue, setInputValue] = useState<string>("");
     const [userData, setUserData] = useState<any>({
-        userName: "",
+        id: "",
         name: "",
-        department: "",
-        grade: "",
-        class: "",
-        email: "",
-        absences: "",  // 新增缺席次數欄位
+        attribute: "",
+        workCompatibility: "",
+        image: "",
     });
     const [showUserData, setShowUserData] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
     const [isError, setIsError] = useState<boolean>(false);
 
     function handleInputPlaceholder(): string {
-        return "請輸入學生" + (selectedOption === "id" ? "ID" : "姓名");
+        return "請輸入" + (selectedOption === "id" ? "ID" : "姓名");
     }
 
     async function handleQueryUser() {
         const apiEndpoint =
             selectedOption === "id"
-                ? `${api.findById}?id=${inputValue}`
+                ? `${api.findById}/${inputValue}` // Updated to use direct ID in URL
                 : `${api.findByName}?name=${inputValue}`;
 
         try {
             const response = await asyncGet(apiEndpoint);
 
             if (response?.code === 200) {
-                setUserData(response?.body);
+                const data = response?.body;
+                setUserData({
+                    id: data.id || "",
+                    name: data.name || "",
+                    attribute: data.attribute || "",
+                    workCompatibility: data.workCompatibility || "",
+                    image: data.image || "",
+                });
                 setShowUserData(true);
+                setIsError(false);
+                setMessage("");
             } else {
                 setShowUserData(false);
                 setIsError(true);
-                setMessage("學生資料未找到");
+                setMessage("資料未找到");
             }
         } catch (error) {
             console.error("查詢失敗:", error);
@@ -59,11 +66,11 @@ export default function UpdateName() {
 
         try {
             const response = selectedOption === "id"
-                ? await asyncPut(`${api.updateById}?id=${inputValue}`, updatedData)
+                ? await asyncPut(`${api.updateById}/?id=${inputValue}`, updatedData) // Updated to use direct ID in URL
                 : await asyncPut(`${api.updateByName}?name=${inputValue}`, updatedData);
 
             if (response?.code === 200) {
-                setMessage("");
+                setMessage("更新成功");
                 setInputValue("");
                 setShowUserData(false);
             } else {
@@ -75,28 +82,26 @@ export default function UpdateName() {
     }
 
     const userFields = [
-        { label: "帳號", key: "userName" },
+        { label: "ID", key: "id" },
         { label: "姓名", key: "name" },
-        { label: "科系", key: "department" },
-        { label: "年級", key: "grade" },
-        { label: "班級", key: "class" },
-        { label: "Email", key: "email" },
-        { label: "缺席次數", key: "absences" }, // 新增缺席次數欄位
+        { label: "屬性", key: "attribute" },
+        { label: "適合工作", key: "workCompatibility" },
+        { label: "圖片 URL", key: "image" },
     ];
 
     return (
         <>
             <Navigation />
             <div className="update_container">
-                <h1>更新學生資料</h1>
+                <h1>更新資料</h1>
                 <form onSubmit={(e) => { e.preventDefault(); handleQueryUser(); }}>
                     <div>
                         <label>
-                            <input type="radio" name="deleteOption" checked={selectedOption === "id"} onChange={() => setSelectedOption("id")} />
+                            <input type="radio" name="updateOption" checked={selectedOption === "id"} onChange={() => setSelectedOption("id")} />
                             ID
                         </label>
                         <label>
-                            <input type="radio" name="deleteOption" checked={selectedOption === "name"} onChange={() => setSelectedOption("name")} />
+                            <input type="radio" name="updateOption" checked={selectedOption === "name"} onChange={() => setSelectedOption("name")} />
                             姓名
                         </label>
                     </div>
@@ -108,14 +113,14 @@ export default function UpdateName() {
                         required
                         title={handleInputPlaceholder()}
                     />
-                    <button type="submit">查詢學生</button>
+                    <button type="submit">查詢資料</button>
                 </form>
                 {message && <p className={`message ${isError ? "error" : ""}`}>{message}</p>}
             </div>
 
             {showUserData && (
                 <div className={`user_data_container ${showUserData ? "show" : ""}`}>
-                    <h2>學生資料</h2>
+                    <h2>資料</h2>
                     {userFields.map(({ label, key }) => (
                         <div key={key}>
                             <label htmlFor={key}>{label}:</label>
@@ -123,16 +128,25 @@ export default function UpdateName() {
                                 type="text"
                                 id={key}
                                 value={userData[key] || ""}
-                                disabled={label === "帳號"}
+                                disabled={label === "ID"}
                                 onChange={(e) => setUserData({ ...userData, [key]: e.target.value })}
                                 title={`請輸入${label}`}
                             />
                         </div>
                     ))}
+                    {userData.image && (
+                        <div className="image-preview">
+                            <h3>圖片預覽:</h3>
+                            <img
+                                src={userData.image}
+                                alt="資料圖片"
+                                className="user-image"
+                            />
+                        </div>
+                    )}
                     <button onClick={handleUpdate}>更新資料</button>
                 </div>
             )}
         </>
     );
 }
-

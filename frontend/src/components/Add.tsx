@@ -1,21 +1,38 @@
-import { useState } from "react";
-import { asyncPost } from "../utils/fetch";
+import { useState, useEffect } from "react";
+import { asyncPost, asyncGet } from "../utils/fetch";
 import { api } from "../enum/api";
 import '../style/Add.css';
 import Navigation from "./Navigation";
 
 export default function AddUser() {
     const [formData, setFormData] = useState({
-        userName: "",
+        id: "",
         name: "",
-        department: "",
-        grade: "",
-        class: "",
-        email: "",
+        attribute: "",
+        workCompatibility: "",
+        image: "",
     });
 
+    const [existingIds, setExistingIds] = useState<string[]>([]);
     const [message, setMessage] = useState<string>("");
     const [isError, setIsError] = useState(false);
+
+    useEffect(() => {
+        // Fetch all data and extract IDs
+        const fetchData = async () => {
+            try {
+                const response = await asyncGet(api.findAll);
+                if (response?.code === 200 && Array.isArray(response.data)) {
+                    setExistingIds(response.data.map((item: { id: string }) => item.id));
+                } else {
+                    console.error("Failed to fetch existing data.");
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -25,6 +42,13 @@ export default function AddUser() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault(); // 防止表單預設提交行為
 
+        // Check if ID already exists
+        if (existingIds.includes(formData.id)) {
+            setMessage("新增失敗：ID 已存在，請輸入其他 ID");
+            setIsError(true);
+            return;
+        }
+
         try {
             const response = await asyncPost(api.insertOne, formData);
 
@@ -32,12 +56,11 @@ export default function AddUser() {
                 setMessage("新增成功");
                 setIsError(false);
                 setFormData({
-                    userName: "",
+                    id: "",
                     name: "",
-                    department: "",
-                    grade: "",
-                    class: "",
-                    email: "",
+                    attribute: "",
+                    workCompatibility: "",
+                    image: "",
                 });
             } else {
                 setMessage(`新增失敗: ${response?.message || "請稍後再試"}`);
@@ -50,12 +73,11 @@ export default function AddUser() {
     };
 
     const formFields = [
-        { name: "userName", label: "使用者名稱", type: "text" },
-        { name: "name", label: "姓名", type: "text" },
-        { name: "department", label: "系級", type: "text" },
-        { name: "grade", label: "年級", type: "text" },
-        { name: "class", label: "班級", type: "text" },
-        { name: "email", label: "電子郵件", type: "email" },
+        { name: "id", label: "ID", type: "text" },
+        { name: "name", label: "名稱", type: "text" },
+        { name: "attribute", label: "屬性", type: "text" },
+        { name: "workCompatibility", label: "適合工作", type: "text" },
+        { name: "image", label: "圖片 URL", type: "url" },
     ];
 
     return (

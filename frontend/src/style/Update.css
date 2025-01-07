@@ -38,6 +38,13 @@
     margin-top: 10px;
 }
 
+.user-image {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
 .update-form {
     width: 100%;
     max-width: 500px;
