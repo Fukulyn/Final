@@ -93,7 +93,7 @@ export default function UpdateName() {
         <>
             <Navigation />
             <div className="update_container">
-                <h1>更新資料</h1>
+                
                 <form onSubmit={(e) => { e.preventDefault(); handleQueryUser(); }}>
                     <div>
                         <label>

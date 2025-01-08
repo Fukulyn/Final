@@ -4,6 +4,9 @@ import { studentsModel } from "../orm/schemas/studentSchemas";
 import { DBResp } from "../interfaces/DBResp";
 import { resp } from "../utils/resp";
 import { Types } from "mongoose";
+import { Document } from "mongoose";
+import { MongoDB } from "../utils/MongoDB";
+import { logger } from "../middlewares/log";
 
 export class UserService extends Service {
 
@@ -40,25 +43,44 @@ export class UserService extends Service {
    * @param studentInfo 學生資料
    * @returns Promise<resp<DBResp<Student> | undefined>>
    */
-  public async insertOne(studentInfo: Student): Promise<resp<DBResp<Student> | undefined>> {
-    const response: resp<DBResp<Student> | undefined> = {
-      code: 200,
-      message: "",
-      body: undefined,
+  public async insertOne(info: Student): Promise<resp<DBResp<Student> | undefined>> {
+    const resp: resp<DBResp<Student> | undefined> = {
+        code: 200,
+        message: "",
+        body: undefined
     };
 
     try {
-      const newStudent = new studentsModel(studentInfo);
-      const savedStudent = await newStudent.save();
-      response.body = savedStudent;
-      response.message = "Insert successful";
-    } catch (error) {
-      response.code = 500;
-      response.message = "Server error during insertion";
-      console.error("Error inserting student:", error);
-    }
+        // 驗證必填欄位
+        if (!info.name || !info.attribute || !info.workCompatibility) {
+            resp.code = 400;
+            resp.message = "缺少必填欄位";
+            return resp;
+        }
 
-    return response;
+        // 檢查資料庫容量限制
+        const studentCount = await studentsModel.countDocuments();
+        if (studentCount >= 200) {
+            resp.code = 403;
+            resp.message = "資料庫已達到上限（200筆）";
+            return resp;
+        }
+
+        // 生成新的 ID
+        const maxId = await studentsModel.findOne().sort({ id: -1 }).select("id").exec();
+        const newId = maxId ? Number(maxId.id) + 1 : 1;
+        info.id = String(newId);
+
+        const result = await studentsModel.create(info);
+        resp.message = "新增成功";
+        resp.body = result;
+        return resp;
+    } catch (error) {
+        console.error('Service error:', error);
+        resp.code = 500;
+        resp.message = error instanceof Error ? error.message : '伺服器錯誤';
+        return resp;
+    }
   }
 
   /**

@@ -28,45 +28,40 @@ export async function asyncGet(api: string): Promise<any> {
     }
 }
 
+interface ApiResponse {
+    code: number;
+    message: string;
+    body?: any;
+}
+
 /**
  * 異步執行 Post 請求
  * @param api 要呼叫的api url
  * @param body 
  * @returns json 結果
  */
-export async function asyncPost(api: string, body: {} | FormData): Promise<any> {
+export const asyncPost = async <T>(url: string, data: any): Promise<T> => {
     try {
-        const res: Response = await fetch(api, {
+        const response = await fetch(url, {
             method: 'POST',
-            credentials: 'include',
-            headers: new Headers({
-                'Access-Control-Allow-Origin': "http://localhost:5173/",
-                'Content-Type': "application/json"
-            }),
-            body: body instanceof FormData ? body : JSON.stringify(body),
-            mode: "cors"
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
         });
 
-        // 檢查響應狀態是否為 200
-        if (!res.ok) {
-            throw new Error(`API 請求失敗，狀態碼：${res.status}`);
+        if (!response.ok) {
+            const errorData = await response.json() as ApiResponse;
+            throw new Error(errorData.message || '請求失敗');
         }
 
-        // Debug: 印出 API 回應資料
-        const data = await res.json();
-        console.log('API 回應資料:', data);
-
-        return data;
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            console.error("請求錯誤:", error.message);
-            return { error: true, message: error.message };
-        } else {
-            console.error("未知錯誤:", error);
-            return { error: true, message: "未知錯誤" };
-        }
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
     }
-}
+};
 
 /**
  * 異步執行 PATCH 請求

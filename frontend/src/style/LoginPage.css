@@ -1,48 +1,289 @@
-/* src/style/LoginPage.css */
-.login-container {
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background-color: #f4c531;
+}
+
+.login_container {
+    height: 31.25em;
+    width: 31.25em;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    margin-top: 30px;
+    /* 為導航欄預留空間 */
+}
+
+.login_form {
+    width: 23.75em;
+    height: 18.75em;
+    background-color: #ffffff;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: calc(50% + 3.1em);
+    left: 50%;
+    padding: 0 3.1em;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f6f9;
+    border-radius: 0.5em;
 }
 
-form {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.login_form label {
+    display: block;
+    margin-bottom: 0.2em;
+    font-weight: 600;
+    color: #2e0d30;
 }
 
-form div {
-    margin-bottom: 15px;
-}
-
-form label {
-    font-size: 1rem;
-    color: #495057;
-}
-
-form input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
+.login_form input {
+    font-size: 0.95em;
+    font-weight: 400;
+    color: #3f3554;
+    padding: 0.3em;
     border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    border-bottom: 0.12em solid #3f3554;
+    outline: none;
 }
 
-form button:hover {
-    background-color: #218838;
+.login_form input:focus {
+    border-color: #f4c531;
+}
+
+.login_form input:not(:last-child) {
+    margin-bottom: 0.9em;
+}
+
+.login_form button {
+    font-size: 0.95em;
+    padding: 0.8em 0;
+    border-radius: 2em;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    background-color: #f4c531;
+    color: #2e0d30;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    margin-top: 0.8em;
+    transition: 0.5s;
+}
+
+.panda_face {
+    height: 7.5em;
+    width: 8.4em;
+    background-color: #ffffff;
+    border: 0.18em solid #2e0d30;
+    border-radius: 7.5em 7.5em 5.62em 5.62em;
+    position: absolute;
+    top: 2em;
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.ear_left,
+.ear_right {
+    background-color: #3f3554;
+    height: 2.5em;
+    width: 2.81em;
+    border: 0.18em solid #2e0d30;
+    border-radius: 2.5em 2.5em 0 0;
+    position: absolute;
+    z-index: 0;
+    /* 確保耳朵在臉的下面 */
+}
+
+.ear_left {
+    transform: rotate(-38deg);
+    right: 6em;
+    top: -0.5em;
+}
+
+.ear_right {
+    transform: rotate(38deg);
+    left: 6em;
+    top: -0.5em;
+}
+
+.blush_left,
+.blush_right {
+    background-color: #ff8bb1;
+    height: 1em;
+    width: 1.37em;
+    border-radius: 50%;
+    position: absolute;
+    top: 4em;
+}
+
+.blush_left {
+    transform: rotate(25deg);
+    left: 1em;
+}
+
+.blush_right {
+    transform: rotate(-25deg);
+    right: 1em;
+}
+
+.eye_left,
+.eye_right {
+    background-color: #3f3554;
+    height: 2.18em;
+    width: 2em;
+    border-radius: 2em;
+    position: absolute;
+    top: 2.18em;
+}
+
+.eye_left {
+    left: 1.37em;
+    transform: rotate(-20deg);
+}
+
+.eye_right {
+    right: 1.37em;
+    transform: rotate(20deg);
+}
+
+.eyeball_left,
+.eyeball_right {
+    height: 0.6em;
+    width: 0.6em;
+    background-color: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    left: 0.6em;
+    top: 0.6em;
+    transition: 1s all;
+}
+
+.eyeball_left {
+    transform: rotate(20deg);
+}
+
+.eyeball_right {
+    transform: rotate(-20deg);
+}
+
+.nose {
+    height: 1em;
+    width: 1em;
+    background-color: #3f3554;
+    position: absolute;
+    top: 4.37em;
+    margin: auto;
+    left: 0;
+    right: 0;
+    border-radius: 1.2em 0 0 0.25em;
+    transform: rotate(45deg);
+}
+
+.nose:before {
+    content: "";
+    position: absolute;
+    background-color: #3f3554;
+    height: 0.6em;
+    width: 0.1em;
+    transform: rotate(-45deg);
+    top: 0.75em;
+    left: 1em;
+}
+
+.mouth,
+.mouth:before {
+    height: 0.75em;
+    width: 0.93em;
+    background-color: transparent;
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0 0.18em #3f3554;
+}
+
+.mouth {
+    top: 5.31em;
+    left: 3.12em;
+}
+
+.mouth:before {
+    content: "";
+    position: absolute;
+    left: 0.87em;
+}
+
+.hand_left,
+.hand_right {
+    background-color: #3f3554;
+    height: 2.81em;
+    width: 2.5em;
+    border: 0.18em solid #2e0d30;
+    border-radius: 0.6em 0.6em 2.18em 2.18em;
+    transition: 1s all;
+    position: absolute;
+    top: 8.4em;
+}
+
+.hand_left {
+    left: 7.5em;
+}
+
+.hand_right {
+    right: 7.5em;
+}
+
+.paw_left,
+.paw_right {
+    background-color: #3f3554;
+    height: 3.12em;
+    width: 3.12em;
+    border: 0.18em solid #2e0d30;
+    border-radius: 2.5em 2.5em 1.2em 1.2em;
+    position: absolute;
+    top: 26.56em;
+}
+
+.paw_left {
+    left: 10em;
+}
+
+.paw_right {
+    right: 10em;
+}
+
+.paw_left:before,
+.paw_right:before {
+    position: absolute;
+    content: "";
+    background-color: #ffffff;
+    height: 1.37em;
+    width: 1.75em;
+    top: 1.12em;
+    left: 0.55em;
+    border-radius: 1.56em 1.56em 0.6em 0.6em;
+}
+
+.paw_left:after,
+.paw_right:after {
+    position: absolute;
+    content: "";
+    background-color: #ffffff;
+    height: 0.5em;
+    width: 0.5em;
+    border-radius: 50%;
+    top: 0.31em;
+    left: 1.12em;
+    box-shadow: 0.87em 0.37em #ffffff, -0.87em 0.37em #ffffff;
+}
+
+@media screen and (max-width: 500px) {
+    .login_container {
+        font-size: 14px;
+    }
 }

@@ -1,8 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { asyncPost, asyncGet } from "../utils/fetch";
 import { api } from "../enum/api";
 import '../style/Add.css';
 import Navigation from "./Navigation";
+
+interface ApiResponse {
+    code: number;
+    message: string;
+    body?: any;
+}
 
 export default function AddUser() {
     const [formData, setFormData] = useState({
@@ -13,26 +19,17 @@ export default function AddUser() {
         image: "",
     });
 
-    const [existingIds, setExistingIds] = useState<string[]>([]);
     const [message, setMessage] = useState<string>("");
     const [isError, setIsError] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    useEffect(() => {
-        // Fetch all data and extract IDs
-        const fetchData = async () => {
-            try {
-                const response = await asyncGet(api.findAll);
-                if (response?.code === 200 && Array.isArray(response.data)) {
-                    setExistingIds(response.data.map((item: { id: string }) => item.id));
-                } else {
-                    console.error("Failed to fetch existing data.");
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchData();
-    }, []);
+    const idRef = useRef<HTMLInputElement>(null);
+
+    // 驗證圖片 URL 是否有效
+    const isValidImageUrl = (url: string) => {
+        const imagePattern = /\.(jpeg|jpg|gif|png|bmp|webp)$/i;
+        return imagePattern.test(url);
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -40,21 +37,39 @@ export default function AddUser() {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault(); // 防止表單預設提交行為
-
-        // Check if ID already exists
-        if (existingIds.includes(formData.id)) {
-            setMessage("新增失敗：ID 已存在，請輸入其他 ID");
-            setIsError(true);
-            return;
-        }
+        e.preventDefault();
+        setIsSubmitting(true);
 
         try {
-            const response = await asyncPost(api.insertOne, formData);
+            // 驗證必填欄位
+            if (!formData.name || !formData.attribute || !formData.workCompatibility) {
+                setMessage("請填寫所有必填欄位");
+                setIsError(true);
+                setIsSubmitting(false);
+                return;
+            }
 
+            // 驗證圖片 URL 格式
+            if (formData.image && !isValidImageUrl(formData.image)) {
+                setMessage("圖片 URL 格式不正確，請使用有效的圖片格式（如 JPG、PNG 等）");
+                setIsError(true);
+                setIsSubmitting(false);
+                return;
+            }
+
+            const submitData = {
+                name: formData.name.trim(),
+                attribute: formData.attribute.trim(),
+                workCompatibility: formData.workCompatibility.trim(),
+                image: formData.image.trim()
+            };
+
+            const response = await asyncPost<ApiResponse>(api.insertOne, submitData);
+            
             if (response?.code === 200) {
-                setMessage("新增成功");
+                setMessage(response.message || "新增成功");
                 setIsError(false);
+                // 重置表單
                 setFormData({
                     id: "",
                     name: "",
@@ -63,33 +78,35 @@ export default function AddUser() {
                     image: "",
                 });
             } else {
-                setMessage(`新增失敗: ${response?.message || "請稍後再試"}`);
-                setIsError(true);
+                throw new Error(response?.message || "新增失敗");
             }
         } catch (error) {
-            setMessage("請求失敗，請檢查伺服器連接");
+            console.error('錯誤詳情:', error);
+            setMessage(error instanceof Error ? error.message : "伺服器錯誤，請稍後再試");
             setIsError(true);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     const formFields = [
-        { name: "id", label: "ID", type: "text" },
         { name: "name", label: "名稱", type: "text" },
         { name: "attribute", label: "屬性", type: "text" },
         { name: "workCompatibility", label: "適合工作", type: "text" },
-        { name: "image", label: "圖片 URL", type: "url" },
+        { name: "image", label: "圖片 URL", type: "text" },
     ];
 
     return (
         <>
             <Navigation />
             <div className="add_container">
-                <h1>新增帕魯</h1>
+                
                 <form onSubmit={handleSubmit}>
                     {formFields.map((field) => (
                         <div className="txt_field" key={field.name}>
                             <label htmlFor={field.name}>{field.label}</label>
                             <input
+                                ref={field.name === "name" ? idRef : null}
                                 type={field.type}
                                 name={field.name}
                                 id={field.name}
@@ -101,9 +118,17 @@ export default function AddUser() {
                             <span></span>
                         </div>
                     ))}
-                    <button type="submit">新增</button>
+                    <button type="submit" disabled={isSubmitting}>新增</button>
                     <p className={`message ${isError ? 'error' : ''}`}>{message}</p>
                 </form>
+
+                {/* 顯示圖片預覽 */}
+                {formData.image && isValidImageUrl(formData.image) && (
+                    <div className="image_preview">
+                        <h2>圖片預覽</h2>
+                        <img src={formData.image} alt="預覽圖片" style={{ width: '300px', height: 'auto' }} />
+                    </div>
+                )}
             </div>
         </>
     );

@@ -1,11 +1,14 @@
 import { Route } from "../abstract/Route";
 import { UserController } from "../controller/UserController"; // 引入 UserController
 import { logger } from "../middlewares/log";
+import { Request, Response } from "express";
+import { UserService } from "../Service/UserService";
 
 export class UserRoute extends Route {
     
     protected url: string;
     protected Controller = new UserController(); // 使用 UserController
+    protected userService = new UserService();
 
     constructor() {
         super();
@@ -34,18 +37,21 @@ export class UserRoute extends Route {
 
         /**
          * 新增學生
-         * request body {
-         *  userName: string,
-         *  name: string,
-         *  department: string,
-         *  grade: string,
-         *  class: string,
-         *  email: string
-         * } 
          * @returns resp<Student>
          */
-        this.router.post(`${this.url}insertOne`, async (req, res) => {
-            this.Controller.insertOne(req, res);
+        this.router.post(`${this.url}insertOne`, async (req: Request, res: Response) => {
+            try {
+                const data = req.body;
+                const result = await this.userService.insertOne(data);
+                res.json(result);
+            } catch (error) {
+                console.error('Insert error:', error);
+                res.status(500).json({
+                    code: 500,
+                    message: error instanceof Error ? error.message : '伺服器��誤',
+                    body: null
+                });
+            }
         });
 
         // 根據 ID 刪除學生

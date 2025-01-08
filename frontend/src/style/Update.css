@@ -1,94 +1,127 @@
 /* Update.css */
-.update-container {
+.update_container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    min-height: calc(100vh - 60px);
+    margin-top: 60px;
     padding: 20px;
+    background-color: #f4c531;
 }
 
-.update-button {
-    background-color: #4CAF50;
-    /* 綠色背景 */
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+.update_container h1 {
+    margin-bottom: 2em;
+    color: #2e0d30;
 }
 
-.update-button:hover {
-    background-color: #45a049;
-    /* 懸停時變深綠色 */
-    transform: scale(1.05);
-    /* 懸停時放大效果 */
-}
-
-.update-button:focus {
-    outline: 2px solid #80e27e;
-    /* 聚焦時的綠色輪廓 */
-}
-
-.update-message {
-    font-size: 14px;
-    color: #4CAF50;
-    /* 綠色文字 */
-    text-align: center;
-    margin-top: 10px;
-}
-
-.user-image {
-    max-width: 100%;
-    height: auto;
-    border: 1px solid #ccc;
-    margin-top: 10px;
-}
-
-.update-form {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f1f8e9;
+form {
+    background-color: white;
+    padding: 2em;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
 }
 
-.update-form .txt_field {
-    position: relative;
-    margin-bottom: 20px;
+form>div {
+    margin-bottom: 1em;
 }
 
-.update-form input {
+form>div:first-child {
+    display: flex;
+    gap: 2em;
+    margin-bottom: 1.5em;
+}
+
+/* 統一所有輸入框樣式 */
+input[type="text"],
+input[type="search"],
+input[type="number"] {
     width: 100%;
-    padding: 12px;
-    font-size: 16px;
+    padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
+    font-size: 1em;
     outline: none;
     transition: border-color 0.3s ease;
 }
 
-.update-form input:focus {
-    border-color: #4CAF50;
-    /* 聚焦時綠色邊框 */
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="number"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-.update-form label {
-    position: absolute;
-    top: -10px;
-    left: 10px;
-    font-size: 14px;
-    color: #333;
-    background-color: #fff;
-    padding: 0 5px;
-    transition: all 0.3s ease;
+label {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    cursor: pointer;
+    margin-bottom: 0.5em;
+    color: #2e0d30;
 }
 
-.update-form input:focus+label,
-.update-form input:not(:placeholder-shown)+label {
-    top: -20px;
-    font-size: 12px;
-    color: #4CAF50;
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 1em;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.message {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.message.error {
+    color: #f44336;
+}
+
+/* 資料顯示容器的樣式 */
+.user_data_container {
+    background-color: white;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 2em;
+    width: 400px;
+    max-width: 90%;
+}
+
+.user_data_container h2 {
+    margin-bottom: 1em;
+    color: #2e0d30;
+}
+
+.user_data_container div {
+    margin-bottom: 1em;
+}
+
+.image-preview {
+    margin-top: 2em;
+    text-align: center;
+}
+
+.image-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* 響應式設計 */
+@media screen and (max-width: 768px) {
+    .update_container {
+        padding: 10px;
+    }
 }
