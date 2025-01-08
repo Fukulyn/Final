@@ -25,13 +25,13 @@
 
 ![image](frontend/系統架構圖2.drawio.png)
 
-## 使用與執行
+# 使用與執行
 
-# 下載程式封裝碼
+## 下載程式封裝碼
 
 `git clone https://github.com/Fukulyn/Final.git`
 
-# 設定後端環境變數 
+## 設定後端環境變數 
 在 `backend` 中
 將 `.env.example` 複製到 `.env `上
 
@@ -49,7 +49,7 @@ privateKey=key            # 私密金鑰
 
 ```
 
-# 切換到專案目錄
+## 切換到專案目錄
 
 `cd Final`
 
@@ -61,11 +61,14 @@ privateKey=key            # 私密金鑰
 
 `cd backend`
 
-# 下載相關安裝模組與執行
+## 下載相關安裝模組與執行
 
 `npm install`
 
 `npm run dev`
+
+#影片連結
+
 
 
 
