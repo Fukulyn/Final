@@ -23,7 +23,7 @@
 
 ## 架構與流程圖
 
-![image]()
+![image](frontend/系統架構圖2.drawio.png)
 
 ## 使用與執行
 
